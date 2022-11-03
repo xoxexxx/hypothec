@@ -33,7 +33,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "webpack",
-      template: "../index.html",
+      template: "./index.html",
       minify: {
         collapseWhitespace: true,
       },
