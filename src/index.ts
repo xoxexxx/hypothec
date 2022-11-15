@@ -124,8 +124,7 @@ window.onload = function (): void {
     sum(results)
     payment(results)
     overpay(results)
-
-    
+    updateResultsView(results)
     
 
     if (results.rate === 0.12) {
