@@ -3,13 +3,13 @@ import * as Model from "./model";
 import init from "./radioPrograms";
 import { convertTypeAcquisitionFromJson, isThisTypeNode, setCommentRange, TypeFormatFlags } from "typescript";
 
-const data = Model.getData()
+const data: object = Model.getData()
 // функция принимает ставку чекбокса
-function updateResultsView(results): void {
+function updateResultsView(results: Model.IResults): void {
   document.querySelector("#total-percent").innerHTML = results.rate * 100 + "%";
 }
 //функция стоимости недвижимости
-function costInput(results): void {
+function costInput(results: Model.IResults): void {
   const input: any = document.querySelector("#input-cost");
   const input_: any = document.querySelector("#input-downpayment");
   input.value = results.cost
@@ -35,7 +35,7 @@ function costInput(results): void {
   })
 }
 // //функция первоначального взноса
-function firstpayment(results): void {
+function firstpayment(results: Model.IResults): void {
   const input: any = document.querySelector("#input-downpayment");
   input.value > results.cost * 0.9 ? input.value = results.cost * 0.9 : input.value; 
   input.value < results.cost * 0.15 ? input.value = results.cost * 0.15 : input.value; 
@@ -43,7 +43,7 @@ function firstpayment(results): void {
   if (results.rate === 0.12) {
     input.value = 0
     results.firstPayment = 0
-  } 
+  }
   results.firstPayment = input.value;
   input.addEventListener("input", () => {
     input.value = input.value.replace(/\D/g, "");
@@ -63,14 +63,14 @@ function firstpayment(results): void {
   })
 }
 //Сумма кредита
-function sum(results): void {
+function sum(results: Model.IResults): void {
   const total: HTMLElement = document.querySelector("#total-cost");
   results.sum = results.cost - results.firstPayment
   total.innerHTML = results.sum + ' ¤'
 }
 
 //Ежемесячный платеж
-function payment(results):  void {
+function payment(results: Model.IResults):  void {
   const input: any = document.querySelector('#input-term')
   const show_payment: HTMLInputElement = document.querySelector('#total-month-payment')
   
@@ -92,7 +92,7 @@ function payment(results):  void {
   })
 }
 //  переплата
-function overpay(results): void {
+function overpay(results: Model.IResults): void {
   const values = document.querySelector('#total-overpayment')
   let pereplata =  results.payment * (results.term * 12) - results.sum
   results.overpay = pereplata
@@ -147,7 +147,6 @@ window.onload = function (): void {
     orderForm.classList.toggle('none')
   })
   orderForm.addEventListener('submit', (e) => {
-
     e.preventDefault()
     const formData = new FormData(orderForm)
     submitForm.setAttribute('disabled', true)
@@ -158,11 +157,9 @@ window.onload = function (): void {
     fetchData()
     async function fetchData() {
 
-      const results: any = Model.getResults()
+      const results: Model.IResults | any = Model.getResults()
 
       let url = document.location.href
-
-      console.log(url)
 
       const response = await fetch(url + 'mail.php', {
         method: 'POST',
@@ -179,9 +176,6 @@ window.onload = function (): void {
       })
 
       const api = await response.text()
-
-      console.log(api)
-
       submitForm.removeAttribute('disabled', true)
       submitForm.innerHTML = 'Оформить заявку'
       orderForm.querySelectorAll('input').forEach(x => x.removeAttribute('disabled', true));
@@ -195,10 +189,5 @@ window.onload = function (): void {
         document.getElementById('error').classList.remove('none')
       }
     }
-    
-
-
   })
-
- 
 };

@@ -1,4 +1,4 @@
-let data: {
+export interface IData {
   selectedProgram: number;
   programs: {
     base: number;
@@ -6,7 +6,18 @@ let data: {
     gov: number;
     zero: number;
   };
-} = {
+}
+export interface IResults {
+    rate: number;
+    cost: number;
+    firstPayment: number;
+    sum: number;
+    term: number;
+    payment: number | any;
+    overpay: number;
+}
+
+let data: IData = {
   selectedProgram: 0.1,
   programs: {
     base: 0.1,
@@ -15,17 +26,8 @@ let data: {
     zero: 0.12,
   },
 };
-
 //значение чекбокса
-let results: {
-  rate: number;
-  cost: number;
-  firstPayment: number;
-  sum: number;
-  term: number;
-  payment: number;
-  overpay: number;
-} = {
+let results: IResults = {
   rate: data.selectedProgram,
   cost: 5000000,
   firstPayment: 750000,
@@ -39,7 +41,7 @@ const getData = (): object => {
   return { ...data };
 };
 // получаем значение чекбокса
-const getResults = () => {
+const getResults = (): IResults =>  {
   return { ...results };
 };
 // Обновляем объект data новыми данными
